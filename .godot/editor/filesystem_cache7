@@ -1,0 +1,20 @@
+0b7126e0c6e86d3ec295a72f5aa6e0bd
+::res://::1673014891
+icon.svg::CompressedTexture2D::8473031378171799017::1672842952::1672842958::1::::<><>::
+main.gd::GDScript::-1::1673009547::0::1::::<>Node<>::
+main.tscn::PackedScene::555033990389488258::1673013496::0::1::::<><>::res://main.gd<>uid://b18skc8fmr6rb<>uid://hdw5ebsolcxc<>res://Snake/Snake.gd
+Signals.gd::GDScript::-1::1673014865::0::1::::<>Node<>::
+::res://Collectibles/::1672938225
+::res://environment/::1672924687
+Beach Tileset.png::CompressedTexture2D::4280566004243924711::1672924687::1672924687::1::::<><>::
+Boats.png::CompressedTexture2D::7632251124447594857::1672924687::1672924687::1::::<><>::
+Characters.png::CompressedTexture2D::9176625578489417192::1672924687::1672924687::1::::<><>::
+Chest.png::CompressedTexture2D::3382451516381898682::1672924687::1672924687::1::::<><>::
+::res://Snake/::1673013496
+BodyPartRes.gd::GDScript::-1::1672937151::0::1::::BodyPart<>Resource<>::
+Snake.gd::GDScript::-1::1673013496::0::1::::<>TileMap<>::
+Snake.png::CompressedTexture2D::498904598861601872::1673005658::1673005658::1::::<><>::
+::res://UI/::1673014883
+hud.tscn::PackedScene::5926289252224604717::1673015053::0::1::::<><>::res://UI/hud.gd<>uid://d25civpab1w4a
+Minecraft.ttf::FontFile::9116429008429546834::1673014702::1673014702::1::::<><>::
+hud.gd::GDScript::-1::1673015053::0::1::::<>MarginContainer<>::

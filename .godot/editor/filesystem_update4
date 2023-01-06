@@ -1,0 +1,14 @@
+res://main.tscn
+res://Snake/Snake.gd
+res://UI/hud.tscn
+res://UI/hud.gd
+res://Signals.gd
+res://player/statistics.gd
+res://UI/game_over.tscn
+res://UI/gui.gd
+res://main.gd
+res://player/player_statistics.tres
+res://UI/main_theme.tres
+res://UI/Statistics.gd
+res://UI/Again.gd
+res://UI/game_over.gd

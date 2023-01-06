@@ -1,0 +1,52 @@
+[gd_scene load_steps=4 format=3 uid="uid://cqo0eatqaanur"]
+
+[ext_resource type="Script" path="res://UI/hud.gd" id="1_8ooge"]
+[ext_resource type="FontFile" uid="uid://d25civpab1w4a" path="res://UI/Minecraft.ttf" id="1_o1xdq"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_53txr"]
+font = ExtResource("1_o1xdq")
+font_size = 30
+
+[node name="HUD" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+script = ExtResource("1_8ooge")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 50.0
+offset_top = 50.0
+offset_right = 1870.0
+offset_bottom = 1030.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+offset_right = 1820.0
+offset_bottom = 34.0
+
+[node name="Points" type="Label" parent="VBoxContainer/HBoxContainer"]
+offset_left = 1697.0
+offset_right = 1820.0
+offset_bottom = 34.0
+size_flags_horizontal = 10
+text = "Points: 0"
+label_settings = SubResource("LabelSettings_53txr")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+offset_top = 38.0
+offset_right = 1820.0
+offset_bottom = 507.0
+size_flags_vertical = 3
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
+offset_top = 511.0
+offset_right = 1820.0
+offset_bottom = 980.0
+size_flags_vertical = 3
