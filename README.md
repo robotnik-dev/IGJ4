@@ -1,2 +1,1 @@
-# IGJ4
- 
+# Minigame for the Interstellar Game Jam 4
