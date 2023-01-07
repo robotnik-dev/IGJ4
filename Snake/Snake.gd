@@ -1,13 +1,22 @@
 extends TileMap
 
+signal level_up
+signal collision
+
 @export_range(0.0, 100.0, 1.0) var upside_down_transition: float:
 	set(percent):
 		upside_down_transition = percent
 		_upside_down_transition(percent)
 
 @export var transition_after_x_food: int = 3
-@export var movement_speed: float = 8.0
 
+enum {
+	GROUND,
+	SNAKE,
+	COLLECTIBLE,
+	OBSTACLE,
+	BORDER
+}
 
 var playerStats: Statistics = preload("res://player/player_statistics.tres")
 var collected_foods: int:
@@ -18,11 +27,10 @@ var collected_foods: int:
 		if collected_foods >= transition_after_x_food:
 			collected_foods = 0
 			match _state:
-				States.NORMAL:
+				NORMAL:
 					anim.play("to_upside_down")
-				States.UPSIDE_DOWN:
+				UPSIDE_DOWN:
 					anim.play("to_normal")
-			_toggle_state()
 
 var _head_tiles = {
 	Vector2i.UP: Vector2i(1,0),
@@ -31,26 +39,35 @@ var _head_tiles = {
 	Vector2i.RIGHT: Vector2i(2,0),
 	
 }
-enum States {NORMAL, UPSIDE_DOWN}
-var _state: int = States.NORMAL
+enum {NORMAL, UPSIDE_DOWN, TRANSITION}
+var _state: int = NORMAL
 var _body_tile = Vector2i(0,1)
 var _food_tile = Vector2i(1,0)
 var _obstacle_tile = Vector2i(9,0)
 var _snake: Array = []
 var _head_direction = Vector2i.RIGHT
 var _start_cell_coords = Vector2i.ZERO
+var _snake_can_move: bool = false
 
 @onready var StartPos = $StartPosiiton
 @onready var MoveSnakeTimer = $MoveSnakeTimer
 @onready var FoodSpawnTimer = $FoodSpawnTimer
+@onready var ObstacleSpawnTimer = $ObstacleSpawnTimer
 @onready var anim = $AnimationPlayer
 
 func _ready() -> void:
+	playerStats.attribute_changed.connect(_on_attribute_changed)
 	init__snake()
-	init_movement()
+	set_new_speed(playerStats.movement_speed)
 
-func init_movement() -> void:
-	MoveSnakeTimer.wait_time = 1.0 / movement_speed
+func _process(delta):
+	if _snake_can_move:
+		move_snake()
+		_snake_can_move = false
+
+func set_new_speed(value: float) -> void:
+	MoveSnakeTimer.stop()
+	MoveSnakeTimer.wait_time = 1.0 / value
 	MoveSnakeTimer.start()
 
 func init__snake() -> void:
@@ -60,64 +77,96 @@ func init__snake() -> void:
 	_snake.append(_start_cell_coords + (_head_direction * 2))
 	
 	for coords in _snake:
-		set_cell(1, coords, 1, _body_tile)
+		set_cell(SNAKE, coords, 1, _body_tile)
+	set_cell(SNAKE, _snake[-1], 1, _head_tiles.get(_head_direction))
 
 func _unhandled_input(event: InputEvent) -> void:
-	
+
 	if event.is_action_pressed("move_down"):
-		if _state == States.UPSIDE_DOWN:
+		get_viewport().set_input_as_handled()
+		if _state == UPSIDE_DOWN:
 			_head_direction = _head_direction if _head_direction == Vector2i.DOWN else Vector2i.UP
 		else:
 			_head_direction = _head_direction if _head_direction == Vector2i.UP else Vector2i.DOWN
 	
 	if event.is_action_pressed("move_left"):
-		if _state == States.UPSIDE_DOWN:
+		get_viewport().set_input_as_handled()
+		
+		if _state == UPSIDE_DOWN:
 			_head_direction = _head_direction if _head_direction == Vector2i.LEFT else Vector2i.RIGHT		
 		else:
 			_head_direction = _head_direction if _head_direction == Vector2i.RIGHT else Vector2i.LEFT
 	
 	if event.is_action_pressed("move_up"):
-		if _state == States.UPSIDE_DOWN:
+		get_viewport().set_input_as_handled()
+		
+		if _state == UPSIDE_DOWN:
 			_head_direction = _head_direction if _head_direction == Vector2i.UP else Vector2i.DOWN
 		else:
 			_head_direction = _head_direction if _head_direction == Vector2i.DOWN else Vector2i.UP
 	
 	if event.is_action_pressed("move_right"):
-		if _state == States.UPSIDE_DOWN:
+		get_viewport().set_input_as_handled()
+		
+		if _state == UPSIDE_DOWN:
 			_head_direction = _head_direction if _head_direction == Vector2i.RIGHT else Vector2i.LEFT			
 		else:
 			_head_direction = _head_direction if _head_direction == Vector2i.LEFT else Vector2i.RIGHT
 
 func check_for_collision(head_coords: Vector2i) -> void:
-	if head_coords in get_used_cells(1) or \
-		head_coords in get_used_cells(3):
-		# collision with self
+	if head_coords in get_used_cells(BORDER):
 		_on_self_collision()
 	
-	if head_coords in get_used_cells(2):
+	elif head_coords in get_used_cells(SNAKE) or \
+		head_coords in get_used_cells(OBSTACLE):
+			# calculate with evade chance
+			var evaded = false
+			
+			if randf() < playerStats.evade_chance:
+				evaded = true
+			
+			if not evaded:
+				# collision with self or with obstacle
+				_on_self_collision()
+			else:
+				# TODO: cool effect
+				pass
+	
+	elif head_coords in get_used_cells(COLLECTIBLE):
 		# collectible
-		erase_cell(2, head_coords)
+		erase_cell(COLLECTIBLE, head_coords)
+		playerStats.length += 1
 		collected_foods += 1
-		add_body_part()
 		playerStats.score += 1
 
-func _toggle_state() -> void:
-	match _state:
-		States.NORMAL:
-			_state = States.UPSIDE_DOWN
-		States.UPSIDE_DOWN:
-			_state = States.NORMAL
+func _switch_state(state: int) -> void:
+	_state = state
 
 func _on_self_collision() -> void:
-	get_tree().reload_current_scene()
+	collision.emit()
 
 func add_body_part() -> void:
 	_snake.insert(0, _snake[0])
 
+func remove_body_part() -> void:
+	var erased = _snake.pop_front()
+	erase_cell(SNAKE, erased)
+
+func _on_attribute_changed(attribute: String, value: float) -> void:
+	match attribute:
+		"length":
+			var diff = value - _snake.size()
+			if signi(diff) == -1:
+				for i in range(abs(diff)):
+					remove_body_part()
+			else:
+				for i in range(diff):
+					add_body_part()
+
 func _upside_down_transition(percent: float = 0.0) -> void:
 	var completed: float = 0.0
 	var completed_cells: int = 0
-	var cells = get_used_cells(0)
+	var cells = get_used_cells(GROUND)
 	cells.sort()
 	for cell in cells:
 		if completed >= percent:
@@ -138,37 +187,39 @@ func resume_snake_movement() -> void:
 	MoveSnakeTimer.start()
 
 func move_snake() -> void:
+	# save local direction in case of raise condition
+	var current_direction = _head_direction
+	
 	# pop the tail
 	var tail_coords = _snake.pop_front()
 	
 	# delete cell on this coords
-	erase_cell(1, tail_coords)
+	erase_cell(SNAKE, tail_coords)
 	
 	# set the old head to body cell
-	set_cell(1, _snake[-1], 1, _body_tile)
+	set_cell(SNAKE, _snake[-1], 1, _body_tile)
 	
 	# append new head in head direction
-	var new_head_coords = _snake[-1] + _head_direction
+	var new_head_coords = _snake[-1] + current_direction
 	check_for_collision(new_head_coords)
 	_snake.append(new_head_coords)
 	
 	# set the new head cell as head tile
-	set_cell(1, _snake[-1], 1, _head_tiles.get(_head_direction))
-
+	set_cell(SNAKE, _snake[-1], 1, _head_tiles.get(current_direction))
+	force_update(SNAKE)
 
 func _get_free_random_coord() -> Vector2i:
 	var rect: Rect2i = get_used_rect()
-	var used_snake: Array = get_used_cells(1)
-	var used_consumables: Array = get_used_cells(2)
-	var used_obstacle: Array = get_used_cells(3)
+	
 	var rand_coord = Vector2i(
 		randi_range(rect.position.x, rect.end.x),
 		randi_range(rect.position.y, rect.end.y)
 	)
 
-	while rand_coord in used_snake or \
-		rand_coord in used_consumables or \
-		rand_coord in used_obstacle:
+	while rand_coord in get_used_cells(SNAKE) or \
+		rand_coord in get_used_cells(COLLECTIBLE) or \
+		rand_coord in get_used_cells(OBSTACLE) or \
+		rand_coord in get_used_cells(BORDER):
 		rand_coord = Vector2i(
 			randi_range(rect.position.x, rect.end.x),
 			randi_range(rect.position.y, rect.end.y)
@@ -186,28 +237,35 @@ func spawn_food() -> void:
 	
 	set_cell(2, rand_coord, 0, _food_tile)
 
-
 func _on_food_spawn_timer_timeout() -> void:
 	spawn_food()
 
 
 func _on_move_snake_timer_timeout() -> void:
-	move_snake()
+	_snake_can_move = true
 
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	match anim_name:
 		"to_upside_down":
-			# clear consumables
-			clear_layer(2)
+			clear_layer(COLLECTIBLE)
+			
+			_switch_state(UPSIDE_DOWN)
 		"to_normal":
-			# clear obstacles
-			clear_layer(3)
+			clear_layer(OBSTACLE)
+			clear_layer(COLLECTIBLE)
+			
+			_switch_state(NORMAL)
+			
+			level_up.emit()
 
 	set_process_unhandled_input(true)
 
 
 func _on_obstacle_spawn_timer_timeout() -> void:
-	if _state == States.UPSIDE_DOWN:
+	if _state == UPSIDE_DOWN:
 		spawn_obstacle()
 
+
+func _on_animation_player_animation_started(anim_name):
+	_switch_state(TRANSITION)

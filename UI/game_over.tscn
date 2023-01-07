@@ -24,68 +24,61 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_hobdv")
 script = ExtResource("2_fitgo")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-offset_right = 1920.0
-offset_bottom = 1080.0
+layout_mode = 2
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 50
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-offset_left = 50.0
-offset_top = 50.0
-offset_right = 1870.0
-offset_bottom = 1030.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
-offset_right = 1820.0
-offset_bottom = 90.0
-text = "New Highscore"
+layout_mode = 2
+text = "GAME OVER"
 label_settings = SubResource("LabelSettings_h0dij")
 horizontal_alignment = 1
 vertical_alignment = 1
+uppercase = true
 
 [node name="Statistics" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
-offset_top = 94.0
-offset_right = 1820.0
-offset_bottom = 980.0
+layout_mode = 2
 size_flags_vertical = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/Statistics"]
-offset_right = 1820.0
-offset_bottom = 886.0
+layout_mode = 2
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_top = 25
 theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 25
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Statistics/MarginContainer"]
-offset_left = 25.0
-offset_top = 25.0
-offset_right = 1795.0
-offset_bottom = 861.0
+layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Statistics/MarginContainer/VBoxContainer"]
-offset_right = 1770.0
-offset_bottom = 793.0
+layout_mode = 2
 size_flags_vertical = 3
 
-[node name="PlayerName" type="Label" parent="MarginContainer/VBoxContainer/Statistics/MarginContainer/VBoxContainer/VBoxContainer"]
-offset_top = 113.0
-offset_right = 1770.0
-offset_bottom = 147.0
-size_flags_vertical = 6
-text = "Name: "
-label_settings = SubResource("LabelSettings_lmnd8")
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Statistics/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Statistics/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 7
+text = "Name"
 horizontal_alignment = 1
+vertical_alignment = 1
 uppercase = true
 
+[node name="PlayerName" type="LineEdit" parent="MarginContainer/VBoxContainer/Statistics/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 7
+alignment = 1
+
 [node name="Score" type="Label" parent="MarginContainer/VBoxContainer/Statistics/MarginContainer/VBoxContainer/VBoxContainer"]
-offset_top = 379.0
-offset_right = 1770.0
-offset_bottom = 413.0
+layout_mode = 2
 size_flags_vertical = 6
 text = "Score: "
 label_settings = SubResource("LabelSettings_lmnd8")
@@ -94,9 +87,7 @@ vertical_alignment = 1
 uppercase = true
 
 [node name="Highscore" type="Label" parent="MarginContainer/VBoxContainer/Statistics/MarginContainer/VBoxContainer/VBoxContainer"]
-offset_top = 645.0
-offset_right = 1770.0
-offset_bottom = 679.0
+layout_mode = 2
 size_flags_vertical = 6
 text = "Highscore: "
 label_settings = SubResource("LabelSettings_lmnd8")
@@ -105,10 +96,7 @@ vertical_alignment = 1
 uppercase = true
 
 [node name="Again" type="Button" parent="MarginContainer/VBoxContainer/Statistics/MarginContainer/VBoxContainer"]
-offset_left = 1669.0
-offset_top = 797.0
-offset_right = 1770.0
-offset_bottom = 836.0
+layout_mode = 2
 size_flags_horizontal = 8
 theme_override_font_sizes/font_size = 30
 text = "AGAIN"
