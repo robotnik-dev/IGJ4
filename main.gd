@@ -5,25 +5,28 @@ var playerStats: Statistics = preload("res://player/player_statistics.tres")
 @onready var gameOver = $GUI/game_over
 @onready var tileMap = $TileMap
 @onready var levelUp: PanelContainer = $GUI/LevelUp
+@onready var stats = $GUI/Stats
 
 func _ready() -> void:
 	Signals.game_over.connect(game_won)
 	Signals.new_game.connect(new_game)
 	tileMap.level_up.connect(_on_level_up)
-	tileMap.collision.connect(new_game)
+	tileMap.collision.connect(game_over)
 	Signals.leveled.connect(_on_level_option_selected)
+
 
 func new_game() -> void:
 	get_tree().paused = false
 	playerStats.reset()
 	get_tree().reload_current_scene()
 
-func game_won() -> void:
+func game_over() -> void:
 	get_tree().paused = true
 	gameOver.show()
 
-func close_game() -> void:
-	get_tree().quit()
+func game_won() -> void:
+	get_tree().paused = true
+	gameOver.show()
 
 func _on_level_option_selected() -> void:
 	levelUp.hide()
@@ -34,6 +37,19 @@ func _on_level_up() -> void:
 	get_tree().paused = true
 	levelUp.show()
 
+func pause_game() -> void:
+	get_tree().paused = true
+	stats.show()
+
+func unpause_game() -> void:
+	if gameOver.visible or levelUp.visible:
+		return
+	stats.hide()
+	get_tree().paused = false
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
-		close_game()
+		if get_tree().paused:
+			unpause_game()
+		else:
+			pause_game()

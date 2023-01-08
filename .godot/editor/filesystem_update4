@@ -1,11 +1,6 @@
-res://UI/LevelUpBtn.tscn
+res://UI/level_up.tscn
+res://UI/game_over.tscn
+res://UI/stats.tscn
 res://main.tscn
 res://Snake/Snake.gd
-res://main.gd
-res://player/statistics.gd
-res://UI/level_up.tscn
-res://UI/level_up.gd
-res://UI/levelup_btn.gd
-res://Signals.gd
-res://UI/game_over.tscn
-res://UI/game_over.gd
+res://UI/stats.gd

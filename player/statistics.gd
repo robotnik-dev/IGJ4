@@ -2,17 +2,24 @@ class_name  Statistics
 extends Resource
 
 signal attribute_changed(attribute, value)
+signal new_highscore(player_name, highscore)
 
 var winning_score: int = 50
 var highscore: int = 0
-var name: String = "player"
+var player_name: String = "":
+	set(value):
+		player_name = value
+		if floor(score * point_multiplier) > highscore:
+			highscore = floor(score * point_multiplier)
+			new_highscore.emit(player_name, highscore)
+
 var score: int = 0:
 	set(value):
 		score = value
-		if score >= winning_score:
-			Signals.emit_signal("game_over")
-		else:
-			Signals.emit_signal("score_changed", score)
+#		if score >= winning_score:
+#			Signals.emit_signal("game_over")
+#		else:
+		Signals.emit_signal("score_changed", score)
 
 var level: int = 0
 var movement_speed: float = 10.0:
@@ -32,7 +39,7 @@ var evade_chance: float = 0.0:
 		attribute_changed.emit("evade_chance", evade_chance)
 
 var min_evade: float = 0.0
-var max_evade: float = 0.8
+var max_evade: float = 0.75
 var length: int = 2:
 	set(value):
 		length = value
@@ -48,11 +55,11 @@ var point_multiplier: float = 1.0:
 		attribute_changed.emit("point_multiplier", point_multiplier)
 
 var min_multiplier: float = 1.0
-var max_multiplier: float = 3.0
+var max_multiplier: float = 4.0
 
 var _shorten_value: int = 3
-var _evade_up_value: float = 0.05
-var _multiplier_up_value: float = 0.2
+var _evade_up_value: float = 0.15
+var _multiplier_up_value: float = 0.5
 
 func reset() -> void:
 	self.score = 0

@@ -3,15 +3,13 @@
 [ext_resource type="Theme" uid="uid://c0ufm05l6hf8h" path="res://UI/main_theme.tres" id="1_hm7ll"]
 [ext_resource type="Script" path="res://UI/game_over.gd" id="2_fitgo"]
 [ext_resource type="Script" path="res://UI/Again.gd" id="3_8nqny"]
+[ext_resource type="PackedScene" uid="uid://bp51e1b24a71c" path="res://UI/stats.tscn" id="3_g4w8t"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hobdv"]
 bg_color = Color(0.243137, 0, 0.701961, 0.105882)
 
 [sub_resource type="LabelSettings" id="LabelSettings_h0dij"]
 font_size = 86
-
-[sub_resource type="LabelSettings" id="LabelSettings_lmnd8"]
-font_size = 30
 
 [node name="game_over" type="PanelContainer"]
 anchors_preset = 15
@@ -24,82 +22,70 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_hobdv")
 script = ExtResource("2_fitgo")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 2
+offset_right = 1152.0
+offset_bottom = 648.0
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 50
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-layout_mode = 2
+offset_left = 50.0
+offset_top = 50.0
+offset_right = 1102.0
+offset_bottom = 598.0
+theme_override_constants/separation = 20
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
+offset_right = 1052.0
+offset_bottom = 90.0
 text = "GAME OVER"
 label_settings = SubResource("LabelSettings_h0dij")
 horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
 
-[node name="Statistics" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+offset_top = 110.0
+offset_right = 1052.0
+offset_bottom = 548.0
 size_flags_vertical = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/Statistics"]
-layout_mode = 2
-theme_override_constants/margin_left = 25
-theme_override_constants/margin_top = 25
-theme_override_constants/margin_right = 25
-theme_override_constants/margin_bottom = 25
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+offset_right = 1052.0
+offset_bottom = 24.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Statistics/MarginContainer"]
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Statistics/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Statistics/MarginContainer/VBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Statistics/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+offset_top = 2.0
+offset_right = 524.0
+offset_bottom = 21.0
 size_flags_horizontal = 3
-size_flags_vertical = 7
 text = "Name"
 horizontal_alignment = 1
 vertical_alignment = 1
-uppercase = true
 
-[node name="PlayerName" type="LineEdit" parent="MarginContainer/VBoxContainer/Statistics/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
+[node name="LineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+offset_left = 528.0
+offset_right = 1052.0
+offset_bottom = 24.0
 size_flags_horizontal = 3
-size_flags_vertical = 7
-alignment = 1
+size_flags_vertical = 4
 
-[node name="Score" type="Label" parent="MarginContainer/VBoxContainer/Statistics/MarginContainer/VBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 6
-text = "Score: "
-label_settings = SubResource("LabelSettings_lmnd8")
-horizontal_alignment = 1
-vertical_alignment = 1
-uppercase = true
+[node name="Stats" parent="MarginContainer/VBoxContainer/VBoxContainer" instance=ExtResource("3_g4w8t")]
+offset_top = 28.0
+offset_right = 1052.0
+offset_bottom = 395.0
+size_flags_vertical = 3
 
-[node name="Highscore" type="Label" parent="MarginContainer/VBoxContainer/Statistics/MarginContainer/VBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 6
-text = "Highscore: "
-label_settings = SubResource("LabelSettings_lmnd8")
-horizontal_alignment = 1
-vertical_alignment = 1
-uppercase = true
-
-[node name="Again" type="Button" parent="MarginContainer/VBoxContainer/Statistics/MarginContainer/VBoxContainer"]
-layout_mode = 2
+[node name="Again" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+offset_left = 951.0
+offset_top = 399.0
+offset_right = 1052.0
+offset_bottom = 438.0
 size_flags_horizontal = 8
 theme_override_font_sizes/font_size = 30
 text = "AGAIN"
 script = ExtResource("3_8nqny")
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Statistics/MarginContainer/VBoxContainer/Again" to="MarginContainer/VBoxContainer/Statistics/MarginContainer/VBoxContainer/Again" method="_on_pressed"]
+[connection signal="text_submitted" from="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer/Again" to="MarginContainer/VBoxContainer/VBoxContainer/Again" method="_on_pressed"]
