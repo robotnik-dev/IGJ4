@@ -2,7 +2,11 @@ extends PanelContainer
 
 var playerStats: Statistics = preload("res://player/player_statistics.tres")
 
-@onready var button1 = $MarginContainer/VBoxContainer/HBoxContainer/Selection/VBoxContainer/HBoxContainer/LevelUpBtn
+@onready var shorten = $MarginContainer/VBoxContainer/HBoxContainer/Selection/VBoxContainer/HBoxContainer/LevelUpBtn
+@onready var lucky = $MarginContainer/VBoxContainer/HBoxContainer/Selection/VBoxContainer/HBoxContainer/LevelUpBtn2
+@onready var greedy = $MarginContainer/VBoxContainer/HBoxContainer/Selection/VBoxContainer/HBoxContainer/LevelUpBtn3
+
+
 @onready var level = $MarginContainer/VBoxContainer/HBoxContainer/Stats/VBoxContainer/AttrBox/Value
 @onready var score = $MarginContainer/VBoxContainer/HBoxContainer/Stats/VBoxContainer/AttrBox2/Value
 @onready var score_multiplier = $MarginContainer/VBoxContainer/HBoxContainer/Stats/VBoxContainer/AttrBox3/Value
@@ -12,12 +16,17 @@ var playerStats: Statistics = preload("res://player/player_statistics.tres")
 
 func _on_visibility_changed():
 	if visible:
-		if button1:
-			button1.grab_focus()
+		if shorten:
+			shorten.grab_focus()
+		
+		if playerStats.has_max_evade():
+			lucky.disabled = true
+		if playerStats.has_max_multiplier():
+			greedy.disabled = true
 
 
 func _on_level_up_btn_focus_entered() -> void:
-	length.modulate = Color(0.06639998406172, 0.8299999833107, 0.19366653263569)
+	length.modulate = Color("95c5ac")
 	var shorten_v = clampi(playerStats.length - playerStats._shorten_value, playerStats.min_length, playerStats.length - playerStats._shorten_value)
 	length.text = str(shorten_v)
 
@@ -28,7 +37,7 @@ func _on_level_up_btn_focus_exited() -> void:
 
 
 func _on_level_up_btn_2_focus_entered() -> void:
-	evade_chance.modulate = Color(0.06639998406172, 0.8299999833107, 0.19366653263569)
+	evade_chance.modulate = Color("95c5ac")
 	var preview_evade_chance = clampf(playerStats.evade_chance + playerStats._evade_up_value, playerStats.min_evade, playerStats.max_evade)
 	evade_chance.text = str(preview_evade_chance * 100) + " %"
 
@@ -39,7 +48,7 @@ func _on_level_up_btn_2_focus_exited() -> void:
 
 
 func _on_level_up_btn_3_focus_entered() -> void:
-	score_multiplier.modulate = Color(0.06639998406172, 0.8299999833107, 0.19366653263569)
+	score_multiplier.modulate = Color("95c5ac")
 	var preview_score_multiplier = clampf(playerStats.point_multiplier +  playerStats._multiplier_up_value, playerStats.min_multiplier, playerStats.max_multiplier)
 	score_multiplier.text = "x " + str(preview_score_multiplier)
 

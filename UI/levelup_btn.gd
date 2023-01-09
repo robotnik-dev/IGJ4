@@ -2,15 +2,14 @@ extends Button
 
 var playerStats: Statistics = preload("res://player/player_statistics.tres")
 
-@onready var option = $VBoxContainer/Option
-
 func _on_pressed():
-	match option.text:
+	match text:
 		"SHORTEN":
 			playerStats.shorten()
 		"LUCKY":
 			playerStats.lucky()
-		"RISKY":
+		"GREEDY":
 			playerStats.risky()
 
 	Signals.leveled.emit()
+

@@ -22,8 +22,8 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_hobdv")
 script = ExtResource("2_fitgo")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-offset_right = 1152.0
-offset_bottom = 648.0
+offset_right = 1024.0
+offset_bottom = 512.0
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 50
@@ -32,12 +32,12 @@ theme_override_constants/margin_bottom = 50
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 offset_left = 50.0
 offset_top = 50.0
-offset_right = 1102.0
-offset_bottom = 598.0
+offset_right = 974.0
+offset_bottom = 462.0
 theme_override_constants/separation = 20
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
-offset_right = 1052.0
+offset_right = 924.0
 offset_bottom = 90.0
 text = "GAME OVER"
 label_settings = SubResource("LabelSettings_h0dij")
@@ -47,45 +47,29 @@ uppercase = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
 offset_top = 110.0
-offset_right = 1052.0
-offset_bottom = 548.0
+offset_right = 924.0
+offset_bottom = 412.0
 size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer"]
-offset_right = 1052.0
-offset_bottom = 24.0
-
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
-offset_top = 2.0
-offset_right = 524.0
-offset_bottom = 21.0
-size_flags_horizontal = 3
-text = "Name"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="LineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
-offset_left = 528.0
-offset_right = 1052.0
-offset_bottom = 24.0
-size_flags_horizontal = 3
-size_flags_vertical = 4
-
 [node name="Stats" parent="MarginContainer/VBoxContainer/VBoxContainer" instance=ExtResource("3_g4w8t")]
-offset_top = 28.0
-offset_right = 1052.0
-offset_bottom = 395.0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 924.0
+offset_bottom = 259.0
+grow_horizontal = 1
+grow_vertical = 1
 size_flags_vertical = 3
 
 [node name="Again" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer"]
-offset_left = 951.0
-offset_top = 399.0
-offset_right = 1052.0
-offset_bottom = 438.0
+offset_left = 823.0
+offset_top = 263.0
+offset_right = 924.0
+offset_bottom = 302.0
 size_flags_horizontal = 8
 theme_override_font_sizes/font_size = 30
 text = "AGAIN"
 script = ExtResource("3_8nqny")
 
-[connection signal="text_submitted" from="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer/Again" to="MarginContainer/VBoxContainer/VBoxContainer/Again" method="_on_pressed"]
+[connection signal="visibility_changed" from="MarginContainer/VBoxContainer/VBoxContainer/Again" to="MarginContainer/VBoxContainer/VBoxContainer/Again" method="_on_visibility_changed"]

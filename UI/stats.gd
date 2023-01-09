@@ -15,7 +15,7 @@ func _on_visibility_changed() -> void:
 
 func update_stats() -> void:
 	level.text = str(playerStats.level)
-	score.text = str(floor(playerStats.score * playerStats.point_multiplier))
+	score.text = str(playerStats.score)
 	score_multiplier.text = "x " + str(playerStats.point_multiplier)
 	length.text = str(playerStats.length)
 	evade_chance.text = str(playerStats.evade_chance * 100) + " %"

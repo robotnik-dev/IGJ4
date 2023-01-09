@@ -1,0 +1,13 @@
+res://player/player_statistics.tres::1df45cd526304687c961e3e74fc5848d::1673016621::res://.godot/exported/133200997/export-5ac5a4cde05d294a17e3406ce1686f5a-player_statistics.res
+res://UI/disabled.tres::820a24ffffe74ac642994bc4438ace7f::1673269748::res://.godot/exported/133200997/export-38f303f5a75b7f3dc25cda964b2e4a93-disabled.res
+res://UI/focus.tres::ab9aec783850cd942c67b549296bad2f::1673269748::res://.godot/exported/133200997/export-6f6a1a974ad320cb9d224778fa0e0477-focus.res
+res://UI/game_over.tscn::9ed5d530e3b3d2ba9b78ae20c5016071::1673274573::res://.godot/exported/133200997/export-496dee5dfe5eb30193607272a15f179c-game_over.scn
+res://UI/hover.tres::19509a79682583730b16a3e042dc340b::1673263507::res://.godot/exported/133200997/export-a9544b037b81affa884486e828d7afb7-hover.res
+res://UI/hud.tscn::6ee65d87eed1fb449900da192520ba04::1673185066::res://.godot/exported/133200997/export-a95b3dfddf44e866791e8c8563580609-hud.scn
+res://UI/LevelUpBtn.tscn::61cb6e7350b3066484b0081597d2cd70::1673269164::res://.godot/exported/133200997/export-8ec0ebf5a12a0935f18ac7d894ee6353-LevelUpBtn.scn
+res://UI/level_up.tscn::97daa4215b68d39b2cf54041eb15d6b5::1673274573::res://.godot/exported/133200997/export-be5d1a05bd521762b3de7fa2d3f996ab-level_up.scn
+res://UI/main_theme.tres::069181cd8fab9bcc62472ae9ae69a576::1673263356::res://.godot/exported/133200997/export-5e8c7f80bd82c4f5df926363bfbf27c1-main_theme.res
+res://UI/normal.tres::0fbcce3c44b36551d34a861e3051febf::1673269748::res://.godot/exported/133200997/export-726319c81cfd89019244ce62a4d485bf-normal.res
+res://UI/pressed.tres::e109a9c6b088f5f4a187bfcf82d92a9c::1673263542::res://.godot/exported/133200997/export-a7cc4832a6d84f0455a6b32f3985fda1-pressed.res
+res://UI/stats.tscn::b1af1c6fcd93370b30f0090f7fa69786::1673274573::res://.godot/exported/133200997/export-59803c7c8a1060064ffec4b0e6fdbde3-stats.scn
+res://main.tscn::c560ffeaa95e0df46d0ec9618afb8af4::1673274573::res://.godot/exported/133200997/export-3070c538c03ee49b7677ff960a3f5195-main.scn

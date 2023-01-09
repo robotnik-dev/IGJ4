@@ -1,6 +1,8 @@
-res://UI/level_up.tscn
-res://UI/game_over.tscn
-res://UI/stats.tscn
 res://main.tscn
+res://UI/normal.tres
+res://UI/disabled.tres
+res://UI/focus.tres
 res://Snake/Snake.gd
-res://UI/stats.gd
+res://UI/level_up.tscn
+res://UI/stats.tscn
+res://UI/game_over.tscn

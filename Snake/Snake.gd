@@ -44,7 +44,7 @@ enum {NORMAL, UPSIDE_DOWN, TRANSITION}
 var _state: int = NORMAL
 var _body_tile = Vector2i(0,1)
 var _food_tile = Vector2i(1,0)
-var _obstacle_tile = Vector2i(9,0)
+var _obstacle_tile = Vector2i(0,0)
 var _snake: Array = []
 var _head_direction = Vector2i.RIGHT
 var _start_cell_coords = Vector2i.ZERO
@@ -71,20 +71,27 @@ const _ground_border_br = Vector2i(3, 8)
 const _ground_border_bl = Vector2i(1, 8)
 
 
+var _upsidedown_wait_time: float = 4.0
+var _normal_wait_time: float = 3.0
+
 @onready var StartPos = $StartPosiiton
 @onready var MoveSnakeTimer = $MoveSnakeTimer
 @onready var FoodSpawnTimer = $FoodSpawnTimer
 @onready var ObstacleSpawnTimer = $ObstacleSpawnTimer
 @onready var anim = $AnimationPlayer
+@onready var normalMusic = $NormalMusic
+@onready var upsideDownMusic = $UpsideDownMusic
+@onready var eatSound = $EatSound
 
 func _ready() -> void:
 	playerStats.attribute_changed.connect(_on_attribute_changed)
-	init__snake()
+	init_snake()
 	set_new_speed(playerStats.movement_speed)
+	normalMusic.play()
 
 func _process(delta):
 	if _snake_can_move:
-		move_snake()
+		_move_snake()
 		_snake_can_move = false
 
 func set_new_speed(value: float) -> void:
@@ -92,7 +99,7 @@ func set_new_speed(value: float) -> void:
 	MoveSnakeTimer.wait_time = 1.0 / value
 	MoveSnakeTimer.start()
 
-func init__snake() -> void:
+func init_snake() -> void:
 	_start_cell_coords = local_to_map(StartPos.position)
 	_snake.append(_start_cell_coords)
 	_snake.append(_start_cell_coords + _head_direction)
@@ -156,13 +163,29 @@ func check_for_collision(head_coords: Vector2i) -> void:
 	
 	elif head_coords in get_used_cells(COLLECTIBLE):
 		# collectible
+		eatSound.play()
 		erase_cell(COLLECTIBLE, head_coords)
 		playerStats.length += 1
 		collected_foods += 1
 		playerStats.score += 1
 
+func pause_snake_movement() -> void:
+	FoodSpawnTimer.stop()
+	MoveSnakeTimer.stop()
+
+func resume_snake_movement() -> void:
+	FoodSpawnTimer.start()
+	MoveSnakeTimer.start()
+
 func _switch_state(state: int) -> void:
 	_state = state
+	match  state:
+		UPSIDE_DOWN:
+			normalMusic.stop()
+			upsideDownMusic.play()
+		NORMAL:
+			upsideDownMusic.stop()
+			normalMusic.play()
 
 func _on_self_collision() -> void:
 	collision.emit()
@@ -183,7 +206,6 @@ func _on_attribute_changed(attribute: String, value: float) -> void:
 			else:
 				for i in range(diff):
 					remove_body_part()
-			
 
 func _upside_down_transition(percent: float = 0.0) -> void:
 	var completed: float = 0.0
@@ -247,15 +269,7 @@ func _set_borders() -> void:
 					_upsidedown_border_l:
 						set_cell(BORDER, cell, 0, _ground_border_l)
 
-func pause_snake_movement() -> void:
-	FoodSpawnTimer.stop()
-	MoveSnakeTimer.stop()
-
-func resume_snake_movement() -> void:
-	FoodSpawnTimer.start()
-	MoveSnakeTimer.start()
-
-func move_snake() -> void:
+func _move_snake() -> void:
 	# save local direction in case of raise condition
 	var current_direction = _head_direction
 	
@@ -296,18 +310,19 @@ func _get_free_random_coord() -> Vector2i:
 	
 	return rand_coord
 
-func spawn_obstacle() -> void:
+func _spawn_obstacle() -> void:
 	var rand_coord = _get_free_random_coord()
 	
 	set_cell(OBSTACLE, rand_coord, 0, _obstacle_tile)
 
-func spawn_food() -> void:
+func _spawn_food() -> void:
 	var rand_coord = _get_free_random_coord()
 	
 	set_cell(COLLECTIBLE, rand_coord, 0, _food_tile)
 
+
 func _on_food_spawn_timer_timeout() -> void:
-	spawn_food()
+	_spawn_food()
 
 
 func _on_move_snake_timer_timeout() -> void:
@@ -333,8 +348,16 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 
 func _on_obstacle_spawn_timer_timeout() -> void:
 	if _state == UPSIDE_DOWN:
-		spawn_obstacle()
+		_spawn_obstacle()
 
 
 func _on_animation_player_animation_started(anim_name):
 	_switch_state(TRANSITION)
+
+
+func _on_normal_music_finished() -> void:
+	normalMusic.play()
+
+
+func _on_upside_down_music_finished() -> void:
+	upsideDownMusic.play()

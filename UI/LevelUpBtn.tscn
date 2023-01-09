@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://yqaeg0bucyj0"]
+[gd_scene load_steps=7 format=3 uid="uid://yqaeg0bucyj0"]
 
 [ext_resource type="Script" path="res://UI/levelup_btn.gd" id="1_e2vq0"]
-[ext_resource type="Texture2D" uid="uid://dsynua0clsyf6" path="res://icon.svg" id="2_7vtxv"]
+[ext_resource type="StyleBox" uid="uid://bebyr2gvney1d" path="res://UI/normal.tres" id="1_fc820"]
+[ext_resource type="StyleBox" uid="uid://b8vqdw4shlhv8" path="res://UI/hover.tres" id="2_hp5cj"]
+[ext_resource type="StyleBox" uid="uid://blet1t7hu1nhe" path="res://UI/pressed.tres" id="3_0xe4r"]
+[ext_resource type="StyleBox" uid="uid://bv10bbybr5jxl" path="res://UI/disabled.tres" id="4_yrd8f"]
+[ext_resource type="StyleBox" uid="uid://dvp3j0fpw1pca" path="res://UI/focus.tres" id="5_ljaom"]
 
 [node name="LevelUpBtn" type="Button"]
 anchors_preset = 15
@@ -11,36 +15,11 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
+theme_override_styles/normal = ExtResource("1_fc820")
+theme_override_styles/hover = ExtResource("2_hp5cj")
+theme_override_styles/pressed = ExtResource("3_0xe4r")
+theme_override_styles/disabled = ExtResource("4_yrd8f")
+theme_override_styles/focus = ExtResource("5_ljaom")
 script = ExtResource("1_e2vq0")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -73.0
-offset_top = -92.0
-offset_right = 73.0
-offset_bottom = 92.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Option" type="Label" parent="VBoxContainer"]
-offset_right = 146.0
-offset_bottom = 52.0
-size_flags_vertical = 6
-theme_override_font_sizes/font_size = 35
-text = "Option 1"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
-offset_top = 56.0
-offset_right = 146.0
-offset_bottom = 184.0
-size_flags_vertical = 6
-texture = ExtResource("2_7vtxv")
-stretch_mode = 5
 
 [connection signal="pressed" from="." to="." method="_on_pressed"]

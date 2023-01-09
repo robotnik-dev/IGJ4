@@ -77,3 +77,8 @@ func lucky() -> void:
 func risky() -> void:
 	self.point_multiplier += _multiplier_up_value
 
+func has_max_evade() -> bool:
+	return true if evade_chance >= max_evade else false
+
+func has_max_multiplier() -> bool:
+	return true if point_multiplier >= max_multiplier else false

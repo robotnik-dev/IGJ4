@@ -20,8 +20,8 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_mle2i")
 script = ExtResource("1_ygoyr")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-offset_right = 1152.0
-offset_bottom = 648.0
+offset_right = 1024.0
+offset_bottom = 512.0
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
@@ -30,38 +30,42 @@ theme_override_constants/margin_bottom = 15
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 offset_left = 15.0
 offset_top = 15.0
-offset_right = 1137.0
-offset_bottom = 633.0
+offset_right = 1009.0
+offset_bottom = 497.0
 theme_override_constants/separation = 25
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
-offset_right = 1122.0
-offset_bottom = 34.0
-theme_override_font_sizes/font_size = 30
+offset_right = 994.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 20
 text = "level up!"
 horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-offset_top = 59.0
-offset_right = 1122.0
-offset_bottom = 618.0
+offset_top = 48.0
+offset_right = 994.0
+offset_bottom = 482.0
 size_flags_vertical = 3
 
 [node name="Selection" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-offset_right = 559.0
-offset_bottom = 559.0
+offset_right = 495.0
+offset_bottom = 434.0
 size_flags_horizontal = 3
+theme_override_constants/margin_top = 150
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 150
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Selection"]
-offset_right = 559.0
-offset_bottom = 559.0
+offset_top = 150.0
+offset_right = 495.0
+offset_bottom = 284.0
 size_flags_horizontal = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Selection/VBoxContainer"]
-offset_right = 559.0
-offset_bottom = 559.0
+offset_right = 495.0
+offset_bottom = 134.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 15
@@ -70,8 +74,8 @@ theme_override_constants/separation = 15
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_right = 176.0
-offset_bottom = 559.0
+offset_right = 155.0
+offset_bottom = 134.0
 grow_horizontal = 1
 grow_vertical = 1
 size_flags_horizontal = 3
@@ -80,23 +84,15 @@ focus_neighbor_left = NodePath("../LevelUpBtn3")
 focus_neighbor_right = NodePath("../LevelUpBtn2")
 focus_next = NodePath("../LevelUpBtn2")
 focus_previous = NodePath("../LevelUpBtn3")
-
-[node name="Option" parent="MarginContainer/VBoxContainer/HBoxContainer/Selection/VBoxContainer/HBoxContainer/LevelUpBtn/VBoxContainer" index="0"]
-offset_top = 6.0
-offset_right = 174.0
-offset_bottom = 45.0
 text = "SHORTEN"
-
-[node name="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/Selection/VBoxContainer/HBoxContainer/LevelUpBtn/VBoxContainer" index="1"]
-offset_right = 174.0
 
 [node name="LevelUpBtn2" parent="MarginContainer/VBoxContainer/HBoxContainer/Selection/VBoxContainer/HBoxContainer" instance=ExtResource("1_akkfi")]
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 191.0
-offset_right = 367.0
-offset_bottom = 559.0
+offset_left = 170.0
+offset_right = 325.0
+offset_bottom = 134.0
 grow_horizontal = 1
 grow_vertical = 1
 size_flags_horizontal = 3
@@ -105,19 +101,15 @@ focus_neighbor_left = NodePath("../LevelUpBtn")
 focus_neighbor_right = NodePath("../LevelUpBtn3")
 focus_next = NodePath("../LevelUpBtn3")
 focus_previous = NodePath("../LevelUpBtn")
-
-[node name="Option" parent="MarginContainer/VBoxContainer/HBoxContainer/Selection/VBoxContainer/HBoxContainer/LevelUpBtn2/VBoxContainer" index="0"]
-offset_top = 6.0
-offset_bottom = 45.0
 text = "LUCKY"
 
 [node name="LevelUpBtn3" parent="MarginContainer/VBoxContainer/HBoxContainer/Selection/VBoxContainer/HBoxContainer" instance=ExtResource("1_akkfi")]
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 382.0
-offset_right = 559.0
-offset_bottom = 559.0
+offset_left = 340.0
+offset_right = 495.0
+offset_bottom = 134.0
 grow_horizontal = 1
 grow_vertical = 1
 size_flags_horizontal = 3
@@ -126,16 +118,17 @@ focus_neighbor_left = NodePath("../LevelUpBtn2")
 focus_neighbor_right = NodePath("../LevelUpBtn")
 focus_next = NodePath("../LevelUpBtn")
 focus_previous = NodePath("../LevelUpBtn2")
-
-[node name="Option" parent="MarginContainer/VBoxContainer/HBoxContainer/Selection/VBoxContainer/HBoxContainer/LevelUpBtn3/VBoxContainer" index="0"]
-offset_top = 6.0
-offset_bottom = 45.0
-text = "RISKY"
+text = "GREEDY"
 
 [node name="Stats" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("4_qxda1")]
-offset_left = 563.0
-offset_right = 1122.0
-offset_bottom = 559.0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 499.0
+offset_right = 994.0
+offset_bottom = 434.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
 [connection signal="focus_entered" from="MarginContainer/VBoxContainer/HBoxContainer/Selection/VBoxContainer/HBoxContainer/LevelUpBtn" to="." method="_on_level_up_btn_focus_entered"]
